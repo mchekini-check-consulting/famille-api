@@ -31,7 +31,7 @@ public class FamilleResource {
     }
 
     @GetMapping("getById/{famille-email}")
-    public ResponseEntity<FamilleDTO> getFamilleById(@PathVariable("famille-email") String email) {
+    public ResponseEntity<FamilleDTO> getFamilleById(@PathVariable("famille-email") String email) throws Exception {
         Famille famille = familleService.getFamilleByEmail(email);
 
         //Convertir l'entité en DTO
