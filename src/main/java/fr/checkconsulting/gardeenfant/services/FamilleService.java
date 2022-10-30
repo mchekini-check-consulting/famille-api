@@ -4,6 +4,7 @@ import fr.checkconsulting.gardeenfant.entity.Famille;
 import fr.checkconsulting.gardeenfant.repository.FamilleRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +35,11 @@ public class FamilleService {
         }
     }
 
-    public void updateFamille(Famille famille) {
-        familleRepository.save(famille);
+    public void updateFamille(Famille famille) throws Exception {
+        try{
+            familleRepository.save(famille);
+        } catch (DataAccessException e) {
+            throw new Exception("La modification de données a échouée");
+        }
     }
 }

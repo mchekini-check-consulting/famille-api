@@ -41,7 +41,7 @@ public class FamilleResource {
     }
 
     @PutMapping("update")
-    public void updateFamille(@RequestBody Famille famille) {
+    public void updateFamille(@RequestBody Famille famille) throws Exception {
         familleService.updateFamille(famille);
     }
 }
