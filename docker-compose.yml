@@ -1,14 +1,14 @@
 version: '2'
 services:
-#  famille-api:
-#    image: mchekini/famille-api:1.0
-#    container_name: famille-api
-#    ports:
-#      - "8081:8080"
-#    links:
-#      - "famille-db:famille-db"
-#    depends_on:
-#      - famille-db
+  famille-api:
+    image: mchekini/famille-api:1.0
+    container_name: famille-api
+    ports:
+      - "8081:8080"
+    links:
+      - "famille-db:famille-db"
+    depends_on:
+      - famille-db
   famille-db:
     image: postgres
     container_name: famille-db
