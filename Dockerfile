@@ -1,6 +1,6 @@
-FROM debian
-RUN apt-get update && apt-get install openjdk-11-jdk vim curl -y
+FROM openjdk:17-jdk
 WORKDIR /opt
-ADD target/garde-*.jar garde-enfant.jar
+ADD target/famille-api-*.jar famille-api.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/opt/garde-enfant.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/famille-api.jar"]
+
