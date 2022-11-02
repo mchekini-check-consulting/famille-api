@@ -7,6 +7,8 @@ services:
       - "8081:8080"
     links:
       - "famille-db:famille-db"
+    depends_on:
+      - famille-db
   famille-db:
     image: postgres
     container_name: famille-db
