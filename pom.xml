@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>fr.checkconsulting</groupId>
-    <artifactId>garde-enfant</artifactId>
+    <artifactId>famille-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>garde-enfant</name>
     <description>Demo project for Spring Boot</description>
@@ -32,6 +32,11 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

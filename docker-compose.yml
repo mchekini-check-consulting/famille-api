@@ -1,0 +1,16 @@
+version: '2'
+services:
+  nounou-api:
+    image: mchekini/famille-api:1.0
+    container_name: famille-api
+    ports:
+      - "8081:8080"
+    links:
+      - "famille-db:famille-db"
+  nounou-db:
+    image: postgres
+    container_name: famille-db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=famille
