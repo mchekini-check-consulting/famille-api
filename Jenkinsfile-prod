@@ -16,7 +16,7 @@ node("ci-node") {
         sh "sudo docker push mchekini/famille-api:1.0"
         stash includes: 'docker-compose.yml', name: 'utils'
     }
-    node("integration-node") {
+    node("prod-node") {
         stage("deploy famille api") {
             unstash 'utils'
             try {
