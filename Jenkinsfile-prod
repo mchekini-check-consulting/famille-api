@@ -1,0 +1,39 @@
+node("ci-node") {
+    stage("checkout") {
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mchekini-check-consulting/famille-api.git']]])
+    }
+
+    stage("Quality Analyses") {
+        sh "/opt/sonar-scanner/bin/sonar-scanner \\\n" +
+                "  -Dsonar.projectKey=famille-api \\\n" +
+                "  -Dsonar.sources=. \\\n" +
+                "  -Dsonar.host.url=http://3.87.90.191:11001 \\\n" +
+                "  -Dsonar.login=sqp_aa13d879378f8882902448849bacffd535a4c94e"
+    }
+
+    stage("build") {
+        sh "npm install"
+        sh "ng build --configuration production"
+    }
+    stage("build docker image") {
+        sh "sudo docker build -t famille-api-prod ."
+    }
+    stage("push docker image") {
+        sh "sudo docker login -u mchekini -p jskabyliE"
+        sh "sudo docker tag famille-api-prod mchekini/famille-api-prod:1.0"
+        sh "sudo docker push mchekini/famille-api-prod:1.0"
+    }
+    node("prod-node") {
+        stage("deploy famille api") {
+            try {
+                sh "sudo docker stop famille-api-prod-c"
+                sh "sudo docker rm famille-api-prod-c"
+                sh "sudo docker rmi mchekini/famille-api-prod:1.0"
+            } catch (Exception e) {
+                println "No container famille-api-prod-c running"
+            }
+            sh "sudo docker run -p 80:80 --name famille-api-prod-c -d mchekini/famille-api-prod:1.0"
+        }
+    }
+
+}
