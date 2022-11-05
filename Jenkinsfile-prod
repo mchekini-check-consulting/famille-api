@@ -1,30 +1,41 @@
 node("ci-node") {
     stage("checkout") {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mchekini-check-consulting/famille-api.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/develop']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mchekini-check-consulting/famille-api.git']]])
+    }
+    stage("build") {
+        sh "chmod 777 mvnw"
+        sh "./mvnw clean package -DskipTests=true"
     }
 
-    stage("build") {
-        sh "npm install"
-        sh "ng build --configuration production"
+    stage("Quality Analyses"){
+        sh "chmod 777 mvnw"
+        sh "./mvnw clean verify sonar:sonar \\\n" +
+                "  -Dsonar.projectKey=famille-api \\\n" +
+                "  -Dsonar.host.url=http://3.87.90.191:11001 \\\n" +
+                "  -Dsonar.login=sqp_434eefc0e835129fe9b68c2a7829d048250172ef"
     }
+
     stage("build docker image") {
-        sh "sudo docker build -t famille-api-prod ."
+        sh "sudo docker build -t famille-api ."
     }
     stage("push docker image") {
         sh "sudo docker login -u mchekini -p jskabyliE"
-        sh "sudo docker tag famille-api-prod mchekini/famille-api-prod:1.0"
-        sh "sudo docker push mchekini/famille-api-prod:1.0"
+        sh "sudo docker tag famille-api mchekini/famille-api:1.0"
+        sh "sudo docker push mchekini/famille-api:1.0"
+        stash includes: 'docker-compose.yml', name: 'utils'
     }
-    node("prod-node") {
+    node("integration-node") {
         stage("deploy famille api") {
+            unstash 'utils'
             try {
-                sh "sudo docker stop famille-api-prod-c"
-                sh "sudo docker rm famille-api-prod-c"
-                sh "sudo docker rmi mchekini/famille-api-prod:1.0"
-            } catch (Exception e) {
-                println "No container famille-api-prod-c running"
+                sh "sudo docker stop famille-api"
+                sh "sudo docker rm famille-api"
+                sh "sudo docker-compose down"
+                sh "sudo docker rmi mchekini/famille-api:1.0"
+            }catch(Exception e){
+                println "No container famille-api running"
             }
-            sh "sudo docker run -p 80:80 --name famille-api-prod-c -d mchekini/famille-api-prod:1.0"
+            sh "sudo docker-compose up -d"
         }
     }
 
