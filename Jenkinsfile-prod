@@ -7,14 +7,6 @@ node("ci-node") {
         sh "./mvnw clean package -DskipTests=true"
     }
 
-    stage("Quality Analyses"){
-        sh "chmod 777 mvnw"
-        sh "./mvnw clean verify sonar:sonar \\\n" +
-                "  -Dsonar.projectKey=famille-api \\\n" +
-                "  -Dsonar.host.url=http://3.87.90.191:11001 \\\n" +
-                "  -Dsonar.login=sqp_434eefc0e835129fe9b68c2a7829d048250172ef"
-    }
-
     stage("build docker image") {
         sh "sudo docker build -t famille-api ."
     }
