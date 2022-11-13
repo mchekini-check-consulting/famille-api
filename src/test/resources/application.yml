@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://3.87.90.191:10000/auth/realms/famille
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
