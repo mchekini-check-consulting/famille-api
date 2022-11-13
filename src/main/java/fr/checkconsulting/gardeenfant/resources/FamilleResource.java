@@ -29,9 +29,9 @@ public class FamilleResource {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("getById/{famille-email}")
-    public ResponseEntity<FamilleDTO> getFamilleById(@PathVariable("famille-email") String email) throws Exception {
-        Famille famille = familleService.getFamilleByEmail(email);
+    @GetMapping("/get")
+    public ResponseEntity<FamilleDTO> getFamilleById() throws Exception {
+        Famille famille = familleService.getFamilleByEmail();
 
         //Convertir l'entité en DTO
         FamilleDTO familleResponse = modelMapper.map(famille, FamilleDTO.class);
@@ -39,7 +39,7 @@ public class FamilleResource {
         return ResponseEntity.ok().body(familleResponse);
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     public void updateFamille(@RequestBody Famille famille) throws Exception {
         familleService.updateFamille(famille);
     }
