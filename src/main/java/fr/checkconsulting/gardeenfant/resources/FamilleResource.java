@@ -23,7 +23,7 @@ public class FamilleResource {
     }
 
 
-    @GetMapping("get-all")
+    @GetMapping("/get-all")
     public List<FamilleDTO> getAllFamilles() {
         return familleService.getAllFamilles().stream().map(item -> modelMapper.map(item, FamilleDTO.class))
                 .collect(Collectors.toList());
