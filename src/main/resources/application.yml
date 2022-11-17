@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://3.87.90.191:10000/auth/realms/nounou
+          issuer-uri: http://3.87.90.191:10000/auth/realms/famille
   datasource:
     url: jdbc:postgresql://famille-db:5432/postgres
     username: postgres

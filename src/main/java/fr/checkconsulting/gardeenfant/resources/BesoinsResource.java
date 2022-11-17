@@ -23,8 +23,8 @@ public class BesoinsResource {
         this.besoinsService = besoinsService;
     }
 
-    @GetMapping("{emailFamille}")
-    public ResponseEntity<List<BesoinsDTO>> getAllBesoinsByEmailFamille(@PathVariable("emailFamille") String emailFamille) throws Exception {
-        return ResponseEntity.ok(besoinsService.getAllBesoinsByEmailFamille(emailFamille));
+    @GetMapping("")
+    public ResponseEntity<List<BesoinsDTO>> getAllBesoinsByEmailFamille() throws Exception {
+        return ResponseEntity.ok(besoinsService.getAllBesoinsByEmailFamille());
     }
 }
