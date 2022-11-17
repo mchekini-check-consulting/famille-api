@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BesoinsRepository extends JpaRepository<Besoins, String> {
     List<Besoins> findAllByEmailFamille(String emailFamille);
+    void deleteByEmailFamille(String emailFamille);
 }

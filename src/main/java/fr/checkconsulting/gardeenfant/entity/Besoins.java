@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalTime;
 
 @Data
@@ -15,6 +18,7 @@ import java.time.LocalTime;
 public class Besoins {
     @Id
     private String id_besoin;
+    @NotEmpty(message = "Le champ Jour est obligatoire")
     private Integer jour;
     private LocalTime besoin_matin_debut;
     private LocalTime besoin_matin_fin;
