@@ -29,7 +29,6 @@ public class FamilleService {
     @SneakyThrows
     public Famille getFamilleByEmail() throws Exception {
         String email = CommonData.getEmail();
-        log.info("Email: " + email);
         Optional<Famille> result = familleRepository.findById(email);
         if(result.isPresent()) {
             return result.get();
