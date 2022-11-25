@@ -1,4 +1,4 @@
-CREATE TABLE besoins (
+create table if not exists besoins (
     id_besoin varchar primary key,
     jour int,
     besoin_matin_debut time,
