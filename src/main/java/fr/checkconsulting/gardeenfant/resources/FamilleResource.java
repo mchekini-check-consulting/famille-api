@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/v1/famille")
+@RequestMapping("api/v1/famille/infos")
 public class FamilleResource {
     private final FamilleService familleService;
 
