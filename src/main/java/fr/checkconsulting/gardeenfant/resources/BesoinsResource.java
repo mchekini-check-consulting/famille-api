@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -40,6 +41,11 @@ public class BesoinsResource {
     @PutMapping("/update")
     public void updateBesoin(@RequestBody BesoinsDTO besoin) throws Exception {
         besoinsService.modifierBesoin(besoin);
+    }
+
+    @PutMapping("/update-all")
+    public void updateAllBesoin(@RequestBody BesoinsDTO[] besoins) throws Exception {
+        besoinsService.modifierTousBesoin(besoins);
     }
 
     // Supprimer un besoin par son id

@@ -14,6 +14,5 @@ public class BesoinsDTO {
     private Integer besoin_midi_fin;
     private Integer besoin_soir_debut;
     private Integer besoin_soir_fin;
-    private String emailFamille;
     private String type;
 }
