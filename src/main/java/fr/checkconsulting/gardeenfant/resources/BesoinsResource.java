@@ -8,10 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -42,6 +38,7 @@ public class BesoinsResource {
     public void updateBesoin(@RequestBody BesoinsDTO besoin) throws Exception {
         besoinsService.modifierBesoin(besoin);
     }
+
 
     @PutMapping("/update-all")
     public void updateAllBesoin(@RequestBody BesoinsDTO[] besoins) throws Exception {

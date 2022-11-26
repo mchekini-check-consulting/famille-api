@@ -89,6 +89,7 @@ public class BesoinsService {
         besoinData.setJour(besoin.getJour());
         // Récupèrer le contenu persisté dans la BDD
         Besoins data = getAllBesoinsByEmailAndJour(besoin.getJour());
+
         besoinData.setEmailFamille(CommonData.getEmail());
 
         LocalTime matin_debut = data == null ? null : data.getBesoin_matin_debut();
@@ -134,6 +135,7 @@ public class BesoinsService {
         }
         try{
             besoinsRepository.save(besoinData);
+
             // Vérifier si tous le besoins de la journée sont annulés (mis à null)
             if(data != null && matin_debut == null && matin_fin == null && midi_debut == null && midi_fin == null && soir_debut == null && soir_fin == null) {
                 supprimerBesoin(besoin.getId_besoin());
@@ -143,13 +145,14 @@ public class BesoinsService {
         }
     }
 
+
     @Transactional
     public void modifierTousBesoin(BesoinsDTO[] besoins) throws Exception {
         for (BesoinsDTO besoin : besoins) {
             modifierBesoin(besoin);
         }
     }
-
+    
     //Supprimer un besoin
     public void supprimerBesoin(String id) throws Exception {
         try{
