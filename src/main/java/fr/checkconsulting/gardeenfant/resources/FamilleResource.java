@@ -35,6 +35,7 @@ public class FamilleResource {
 
         //Convertir l'entité en DTO
         FamilleDTO familleResponse = modelMapper.map(famille, FamilleDTO.class);
+        familleResponse.setAdresse(String.join(" ", famille.getRue(), famille.getCodePostal(), famille.getVille()));
 
         return ResponseEntity.ok().body(familleResponse);
     }

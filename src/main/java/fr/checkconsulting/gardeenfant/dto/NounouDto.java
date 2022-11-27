@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FamilleDTO {
+public class NounouDto {
     private String nom;
     private String prenom;
     private String adresse;

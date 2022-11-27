@@ -18,7 +18,9 @@ public class Famille implements Serializable {
     private String email;
     private String nom;
     private String prenomRepresentant;
-    private String adresse;
+    private String rue;
+    private String codePostal;
+    private String ville;
     private String numeroTelephone;
     private String pseudo;
 }
