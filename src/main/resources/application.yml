@@ -18,11 +18,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: localhost:9092
+    group-chat: chat-group-id
+    listener:
+      missing-topics-fatal: false
+
+producer:
+  kafka:
+    topic-name: chat-famille
 
 nounou:
   application:
     url: "http://int.certification-tests.com:8080"
-
 
 javamelody:
   init-parameters:
