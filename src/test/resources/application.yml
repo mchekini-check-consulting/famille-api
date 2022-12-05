@@ -21,6 +21,15 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: validate
+  kafka:
+    consumer:
+      group-id: chat-group-id
+      auto-offset-reset: earliest
+    bootstrap-servers: 3.87.90.191:9094
+
+producer:
+  kafka:
+    topic-name: chat-famille
 
 nounou:
   application:
