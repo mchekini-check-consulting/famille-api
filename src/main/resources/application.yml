@@ -19,10 +19,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
-    bootstrap-servers: localhost:9092
-    group-chat: chat-group-id
-    listener:
-      missing-topics-fatal: false
+    consumer:
+      group-id: chat-group-id
+      auto-offset-reset: earliest
+    bootstrap-servers: 3.87.90.191:9094
 
 producer:
   kafka:
