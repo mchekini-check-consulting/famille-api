@@ -10,13 +10,6 @@ import java.util.List;
 
 @Repository
 public interface FamilleRepository extends JpaRepository<Famille, String> {
-
-
-
     @Query("select f from Famille f where (:nom is null or f.nom = :nom) and (:prenom is null or f.prenomRepresentant = :prenom) and (:ville is null or f.ville = :ville)")
     List<Famille> getFamillesByCriteria(@Param("nom") String nom, @Param("prenom") String prenom, @Param("ville") String ville);
-
-
-
-
 }

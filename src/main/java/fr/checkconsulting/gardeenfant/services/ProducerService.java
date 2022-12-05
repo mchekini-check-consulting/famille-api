@@ -1,5 +1,6 @@
 package fr.checkconsulting.gardeenfant.services;
 
+import fr.checkconsulting.gardeenfant.entity.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -14,21 +15,21 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Service
 public class ProducerService {
 
-    private final KafkaTemplate<Integer, String> kafkaTemplate;
+    private final KafkaTemplate<String, Message> kafkaTemplate;
 
-    public ProducerService(KafkaTemplate<Integer, String> kafkaTemplate) {
+    public ProducerService(KafkaTemplate<String, Message> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String topic, String message) {
+    public void sendMessage(String topic, Message message) {
         // the KafkaTemplate provides asynchronous send methods returning a Future
-        ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(topic, message);
+        ListenableFuture<SendResult<String, Message>> future = kafkaTemplate.send(topic, message);
 
         // you can register a callback with the listener to receive the result of send asynchronously
-        future.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+        future.addCallback(new ListenableFutureCallback<SendResult<String, Message>>() {
 
             @Override
-            public void onSuccess(SendResult<Integer, String> result) {
+            public void onSuccess(SendResult<String, Message> result) {
                 log.info("sent message='{}' with offset={}", message, result.getRecordMetadata().offset());
             }
             @Override

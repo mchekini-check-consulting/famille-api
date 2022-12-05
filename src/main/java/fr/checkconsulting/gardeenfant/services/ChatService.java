@@ -1,59 +1,54 @@
 package fr.checkconsulting.gardeenfant.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.checkconsulting.gardeenfant.exception.MapperException;
-import fr.checkconsulting.gardeenfant.model.Message;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.common.PartitionInfo;
+import fr.checkconsulting.gardeenfant.entity.Message;
+import fr.checkconsulting.gardeenfant.repository.MessageRepository;
+import fr.checkconsulting.gardeenfant.security.CommonData;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class ChatService {
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private final ProducerService producerService;
     private final Environment env;
+    private final MessageRepository messageRepository;
+    private final ModelMapper modelMapper;
+    private final Logger LOG = LoggerFactory.getLogger(ChatService.class);
 
-    public ChatService(ProducerService producerService, Environment env) {
-        this.producerService = producerService;
+    @Autowired
+    private KafkaTemplate<String, Message> kafkaTemplate;
+
+    public ChatService(Environment env, KafkaTemplate kafkaTemplate, MessageRepository messageRepository, ModelMapper modelMapper) {
         this.env = env;
+        this.kafkaTemplate = kafkaTemplate;
+        this.messageRepository = messageRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    public List<Message> getMessages() throws  Exception {
+        String email = CommonData.getEmail();
+        List<Message> result = messageRepository
+                .getAllByEmailSourceOrEmailDest(email, email)
+                .stream()
+                .map(message -> modelMapper.map(message, Message.class))
+                .collect(Collectors.toList());
+
+        LOG.info("Result : {}", result);
+        if(!result.isEmpty()) {
+            return result;
+        }else {
+            throw new Exception("La requête a échouée");
+        }
     }
 
     public void sendMessage(Message message) {
-        producerService.sendMessage(env.getProperty("producer.kafka.topic-name"), toJson(message));
-    }
-    @Autowired
-    private ConsumerFactory<String, String> consumerFactory;
-
-    public Set<String> getTopics() {
-        try (Consumer<String, String> consumer = consumerFactory.createConsumer()) {
-            Map<String, List<PartitionInfo>> map = consumer.listTopics();
-            log.info("data : ", map.keySet());
-            return map.keySet();
-        }
-    }
-
-
-    /**
-     * Convert Object to json
-     *
-     * @param object object
-     * @return string json
-     */
-
-    private <T> String toJson(T object) {
-        try {
-            return mapper.writeValueAsString(object);
-        } catch (Exception e) {
-            throw new MapperException(e.getMessage());
-        }
+        LOG.info("Sending User Json Serializer : {}",message);
+        kafkaTemplate.send(env.getProperty("producer.kafka.topic-name"), message);
     }
 }
