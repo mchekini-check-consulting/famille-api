@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Service
+@Slf4j
 public class FamilleService {
     private final FamilleRepository familleRepository;
 
@@ -29,11 +29,12 @@ public class FamilleService {
     @SneakyThrows
     public Famille getFamilleByEmail() throws Exception {
         String email = CommonData.getEmail();
+        log.info("utilisateur connecté = {}", email);
         Optional<Famille> result = familleRepository.findById(email);
         if(result.isPresent()) {
             return result.get();
         }else {
-            throw new Exception("La requête a échouée");
+            throw new Exception("Aucun utilisateur avec l'email " + email + "n'existe en base de données");
         }
     }
 
