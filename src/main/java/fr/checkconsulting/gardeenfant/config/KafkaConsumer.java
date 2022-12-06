@@ -16,7 +16,7 @@ public class KafkaConsumer {
     @Autowired
     public KafkaConsumer(MessageRepository messageRepository) {this.messageRepository = messageRepository;}
 
-    @KafkaListener(topics = "chat-famille", groupId = "chat-group-id")
+    @KafkaListener(topics = "chat-famille", groupId = "famille-group-id")
     public void listenSenderMessage(Message data) {
         System.out.println("Message received by consumer : " + data);
         // Sauvegarder une copie sur la base de données famille
