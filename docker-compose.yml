@@ -1,4 +1,7 @@
 version: '2'
+
+volumes:
+  famille-db-data:
 services:
   famille-api:
     image: mchekini/famille-api:1.0
@@ -18,3 +21,5 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=famille
       - POSTGRES_DB=postgres
+    volumes:
+      - famille-db-data:/var/lib/postgresql/data
