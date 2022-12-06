@@ -31,7 +31,7 @@ public class SearchService {
 
     public List<NounouDto> getNounouByCriteria(String nom, String prenom, String ville) {
 
-        String url = nounouUrl + "/api/v1/nounou/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville;
+        String url = nounouUrl + "/api/v1/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville;
         ResponseEntity<NounouDto[]> nounouDtos = restTemplate.getForEntity(url, NounouDto[].class);
 
         return Arrays.stream(nounouDtos.getBody()).collect(Collectors.toList());
