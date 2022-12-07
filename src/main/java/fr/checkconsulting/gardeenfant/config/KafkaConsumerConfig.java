@@ -35,6 +35,9 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, Message.class);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false );
+        props.put(JsonDeserializer.REMOVE_TYPE_INFO_HEADERS, true );
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
