@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -21,4 +22,6 @@ public class Message {
     private String content;
     private String emailSource;
     private String emailDest;
+    @Column(nullable=false, columnDefinition = "int4 default 0")
+    private int consumed;
 }

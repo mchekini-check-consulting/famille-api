@@ -1,5 +1,6 @@
 package fr.checkconsulting.gardeenfant.resources;
 
+import fr.checkconsulting.gardeenfant.dto.MessageDTO;
 import fr.checkconsulting.gardeenfant.entity.Message;
 import fr.checkconsulting.gardeenfant.services.ChatService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,24 @@ public class ChatResource {
         return ResponseEntity.ok(chatService.getMessages());
     }
 
+    @GetMapping("/get-unread-msg")
+    public ResponseEntity<Number> getUnreadMessages() throws Exception {
+        return ResponseEntity.ok(chatService.getUnreadMessages());
+    }
+
+    @GetMapping("/get-unread-msg-by-nounou")
+    public ResponseEntity<List[]> getUnreadMessagesByNounou() throws Exception {
+        return ResponseEntity.ok(chatService.getUnreadMessagesByNounou());
+    }
+
     @PostMapping("/send")
     public void sendMessage(@RequestBody Message message) throws Exception {
         message.setTimeMessage(LocalDateTime.now());
         chatService.sendMessage(message);
+    }
+
+    @PutMapping("/set-msg-read")
+    public void setMessageRead(@RequestBody MessageDTO data) throws Exception {
+        chatService.setMessageRead(data);
     }
 }

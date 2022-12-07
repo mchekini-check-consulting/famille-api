@@ -35,7 +35,6 @@ public class SearchService {
         ResponseEntity<NounouDto[]> nounouDtos = restTemplate.getForEntity(url, NounouDto[].class);
 
         return Arrays.stream(nounouDtos.getBody()).collect(Collectors.toList());
-
     }
 
     public List<FamilleDTO> getFamilleByCriteria(String nom, String prenom, String ville) {
