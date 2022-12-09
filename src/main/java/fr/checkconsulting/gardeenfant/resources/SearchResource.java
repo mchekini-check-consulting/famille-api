@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,8 +24,13 @@ public class SearchResource {
 
 
     @GetMapping("nounou")
-    public List<NounouDto> getNounouByCriteria(@RequestParam("nom") String nom, @RequestParam("prenom") String prenom, @RequestParam("ville") String ville) {
-        return searchService.getNounouByCriteria(nom, prenom, ville);
+    public List<NounouDto> getNounouByCriteria(@RequestParam("nom") String nom,
+                                               @RequestParam("prenom") String prenom,
+                                               @RequestParam("ville") String ville,
+                                               @RequestParam("debut") String debut,
+                                               @RequestParam("fin") String fin,
+                                                @RequestParam("jour") int jour) {
+        return searchService.getNounouByCriteria(nom, prenom, ville, debut, fin, jour);
     }
 
     @GetMapping("famille")

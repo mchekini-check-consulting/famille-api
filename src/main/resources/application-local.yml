@@ -6,3 +6,6 @@ spring:
       group-id: chat-group-id
       auto-offset-reset: earliest
     bootstrap-servers: localhost:9092
+nounou:
+  application:
+    url: "http://localhost:8083"

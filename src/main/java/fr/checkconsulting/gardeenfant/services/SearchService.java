@@ -9,9 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -29,9 +36,17 @@ public class SearchService {
         this.restTemplate = restTemplate;
     }
 
-    public List<NounouDto> getNounouByCriteria(String nom, String prenom, String ville) {
+    public List<NounouDto> getNounouByCriteria(String nom, String prenom, String ville, String debut, String fin, int jour) {
+        LocalDateTime heureDebut = null;
+        LocalDateTime heureFin = null;
+        if (!Objects.equals(debut, "")) {
+            heureDebut = LocalTime.parse(debut + ":00").atDate(LocalDate.now());
+        }
+        if (!Objects.equals(fin, "")) {
+            heureFin = LocalTime.parse(debut + ":00").atDate(LocalDate.now());
+        }
 
-        String url = nounouUrl + "/api/v1/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville;
+        String url = nounouUrl + "/api/v1/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville + "&debut=" + heureDebut +   "&fin=" + heureFin   + "&jour=" + jour;
         ResponseEntity<NounouDto[]> nounouDtos = restTemplate.getForEntity(url, NounouDto[].class);
 
         return Arrays.stream(nounouDtos.getBody()).collect(Collectors.toList());
