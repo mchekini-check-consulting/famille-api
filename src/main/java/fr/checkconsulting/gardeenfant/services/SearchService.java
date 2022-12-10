@@ -37,13 +37,13 @@ public class SearchService {
     }
 
     public List<NounouDto> getNounouByCriteria(String nom, String prenom, String ville, String debut, String fin, int jour) {
-        LocalDateTime heureDebut = null;
-        LocalDateTime heureFin = null;
-        if (!Objects.equals(debut, "")) {
-            heureDebut = LocalTime.parse(debut + ":00").atDate(LocalDate.now());
+        int heureDebut =-1;
+        int heureFin = -1;
+        if (!"".equals(debut)) {
+            heureDebut = LocalTime.parse(debut + ":00").atDate(LocalDate.now()).getHour();
         }
-        if (!Objects.equals(fin, "")) {
-            heureFin = LocalTime.parse(debut + ":00").atDate(LocalDate.now());
+        if (!"".equals(fin)) {
+            heureFin = LocalTime.parse(fin + ":00").atDate(LocalDate.now()).getHour();
         }
 
         String url = nounouUrl + "/api/v1/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville + "&debut=" + heureDebut +   "&fin=" + heureFin   + "&jour=" + jour;

@@ -29,8 +29,8 @@ public class SearchResource {
                                                @RequestParam("ville") String ville,
                                                @RequestParam("debut") String debut,
                                                @RequestParam("fin") String fin,
-                                                @RequestParam("jour") int jour) {
-        return searchService.getNounouByCriteria(nom, prenom, ville, debut, fin, jour);
+                                                @RequestParam(value = "jour", defaultValue = "1") String jour) {
+        return searchService.getNounouByCriteria(nom, prenom, ville, debut, fin, Integer.parseInt(jour));
     }
 
     @GetMapping("famille")
