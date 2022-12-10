@@ -1,6 +1,7 @@
 package fr.checkconsulting.gardeenfant.resources;
 
 
+import fr.checkconsulting.gardeenfant.dto.DisponibilitesDTO;
 import fr.checkconsulting.gardeenfant.dto.FamilleDTO;
 import fr.checkconsulting.gardeenfant.dto.NounouDto;
 import fr.checkconsulting.gardeenfant.services.SearchService;
@@ -25,6 +26,11 @@ public class SearchResource {
     @GetMapping("nounou")
     public List<NounouDto> getNounouByCriteria(@RequestParam("nom") String nom, @RequestParam("prenom") String prenom, @RequestParam("ville") String ville) {
         return searchService.getNounouByCriteria(nom, prenom, ville);
+    }
+
+    @GetMapping("dispo-nounou")
+    public List<DisponibilitesDTO> getDispoNounou(@RequestParam("email") String email) {
+        return searchService.getDispoNounou(email);
     }
 
     @GetMapping("famille")

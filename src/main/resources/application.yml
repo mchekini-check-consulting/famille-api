@@ -27,6 +27,7 @@ spring:
 producer:
   kafka:
     topic-name: chat-famille
+    topic-name-intervention: intervention-app
 
 nounou:
   application:

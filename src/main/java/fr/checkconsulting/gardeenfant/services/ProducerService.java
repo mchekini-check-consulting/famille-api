@@ -1,5 +1,6 @@
 package fr.checkconsulting.gardeenfant.services;
 
+import fr.checkconsulting.gardeenfant.entity.Intervention;
 import fr.checkconsulting.gardeenfant.entity.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,9 +17,11 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 public class ProducerService {
 
     private final KafkaTemplate<String, Message> kafkaTemplate;
+    private final KafkaTemplate<String, Intervention> kafkaTemplateIntervention;
 
-    public ProducerService(KafkaTemplate<String, Message> kafkaTemplate) {
+    public ProducerService(KafkaTemplate<String, Message> kafkaTemplate, KafkaTemplate<String, Intervention> kafkaTemplateIntervention) {
         this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplateIntervention = kafkaTemplateIntervention;
     }
 
     public void sendMessage(String topic, Message message) {
@@ -35,6 +38,23 @@ public class ProducerService {
             @Override
             public void onFailure(Throwable ex) {
                 log.error("unable to send message='{}'", message, ex);
+            }
+        });
+    }
+
+    public void sendIntervention(String topic, Intervention intervention) {
+        // the KafkaTemplate provides asynchronous send methods returning a Future
+        ListenableFuture<SendResult<String, Intervention>> future = kafkaTemplateIntervention.send(topic, intervention);
+
+        future.addCallback(new ListenableFutureCallback<SendResult<String, Intervention>>() {
+
+            @Override
+            public void onSuccess(SendResult<String, Intervention> result) {
+                log.info("sent intervention='{}' with offset={}", intervention, result.getRecordMetadata().offset());
+            }
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("unable to send intervention='{}'", intervention, ex);
             }
         });
     }

@@ -1,5 +1,6 @@
 package fr.checkconsulting.gardeenfant.config;
 
+import fr.checkconsulting.gardeenfant.entity.Intervention;
 import fr.checkconsulting.gardeenfant.entity.Message;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -33,5 +34,19 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<String, Message> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, Intervention> producerFactoryIntervention() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty("spring.kafka.bootstrap-servers"));
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public KafkaTemplate<String, Intervention> kafkaTemplateIntervention() {
+        return new KafkaTemplate<>(producerFactoryIntervention());
     }
 }
