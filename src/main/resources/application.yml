@@ -5,7 +5,7 @@ spring:
         jwt:
           issuer-uri: http://3.87.90.191:10000/auth/realms/famille
   datasource:
-    url: jdbc:postgresql://famille-db:5432/postgres
+    url: jdbc:postgresql://famille-db:5433/postgres
     username: postgres
     password: famille
     driverClassName: org.postgresql.Driver
@@ -43,3 +43,6 @@ javamelody:
     authorized-users: admin:pwd
     storage-directory: /tmp/javamelody
     monitoring-path: /monitoring
+
+server:
+  port: 8081

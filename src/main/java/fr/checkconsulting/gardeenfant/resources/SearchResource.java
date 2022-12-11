@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,14 @@ public class SearchResource {
     }
 
     @GetMapping("famille")
-    public List<FamilleDTO> getFamilleByCriteria(@RequestParam("nom") String nom, @RequestParam("prenom") String prenom, @RequestParam("ville") String ville) {
-        return searchService.getFamilleByCriteria(nom, prenom, ville);
+    public List<FamilleDTO> getFamilleByCriteria(
+            @RequestParam("nom") String nom,
+            @RequestParam("prenom") String prenom,
+            @RequestParam("ville") String ville,
+            @RequestParam("jour") int jour,
+            @RequestParam("heureDebut") String heureDebut,
+            @RequestParam("heureFin") String heureFin
+    ) {
+        return searchService.getFamilleByCriteria(nom, prenom, ville, jour, heureDebut, heureFin);
     }
 }
