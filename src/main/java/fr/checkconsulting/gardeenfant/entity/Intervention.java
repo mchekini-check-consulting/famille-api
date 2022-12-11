@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -21,10 +22,16 @@ public class Intervention {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime timeIntervention;
-    private Integer jour;
-    private Integer matin;
-    private Integer midi;
-    private Integer soir;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime debutIntervention;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime finIntervention;
+    private String jour;
+    private String matin;
+    private String midi;
+    private String soir;
     private String emailFamille;
     private String emailNounou;
+    @Column(nullable=false, columnDefinition = "varchar(15) default 'Instance'")
+    private String etat;
 }

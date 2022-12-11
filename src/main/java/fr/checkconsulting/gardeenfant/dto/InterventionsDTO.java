@@ -1,4 +1,4 @@
-package fr.checkconsulting.gardeenfant.entity;
+package fr.checkconsulting.gardeenfant.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InterventionsDTO {
     private LocalDateTime timeIntervention;
-    private Integer jour;
-    private Integer matin;
-    private Integer midi;
-    private Integer soir;
+    private LocalDateTime debut_intervention;
+    private LocalDateTime fin_intervention;
+    private String jour;
+    private String matin;
+    private String midi;
+    private String soir;
     private String emailFamille;
     private String emailNounou;
+    private String etat;
 }

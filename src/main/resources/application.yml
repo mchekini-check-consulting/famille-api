@@ -23,6 +23,9 @@ spring:
       group-id: chat-group-id
       auto-offset-reset: earliest
     bootstrap-servers: 3.87.90.191:9094
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
 
 producer:
   kafka:
