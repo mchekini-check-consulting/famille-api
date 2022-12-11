@@ -1,5 +1,6 @@
 package fr.checkconsulting.gardeenfant.services;
 
+import fr.checkconsulting.gardeenfant.dto.DisponibilitesDTO;
 import com.google.common.collect.Iterables;
 import fr.checkconsulting.gardeenfant.dto.FamilleDTO;
 import fr.checkconsulting.gardeenfant.dto.NounouDto;
@@ -41,6 +42,14 @@ public class SearchService {
         return Arrays.stream(nounouDtos.getBody()).collect(Collectors.toList());
     }
 
+    public List<DisponibilitesDTO> getDispoNounou(String email) {
+
+        String url = nounouUrl + "/api/v1/search/dispo-nounou/" + email;
+        ResponseEntity<DisponibilitesDTO[]> dispoNounous = restTemplate.getForEntity(url, DisponibilitesDTO[].class);
+
+        return Arrays.stream(dispoNounous.getBody()).collect(Collectors.toList());
+    }
+    
     public List<FamilleDTO> getFamilleByCriteria(String nom, String prenom, String ville, int jour, String heureDebut, String heureFin) {
 
         if ("".equals(nom)) nom = null;
