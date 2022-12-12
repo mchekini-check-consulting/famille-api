@@ -12,4 +12,4 @@ spring:
 
 nounou:
   application:
-    url: "http://localhost:8083"
+    url: "http://int.certification-tests.com:8080"

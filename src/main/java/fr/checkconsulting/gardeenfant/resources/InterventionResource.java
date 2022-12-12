@@ -68,6 +68,30 @@ public class InterventionResource {
         }
     }
 
+    @PutMapping("/cancel")
+    public List<InfosInt> cancelIntervention(@RequestBody Intervention intervention) throws Exception {
+        interventionService.cancelIntervention(CommonData.getEmail(), intervention.getEmailNounou());
+        return getAllInterventions();
+    }
+
+    @PutMapping("/revive")
+    public List<InfosInt> reviveIntervention(@RequestBody Intervention intervention) throws Exception {
+        interventionService.reviveIntervention(CommonData.getEmail(), intervention.getEmailNounou());
+        return getAllInterventions();
+    }
+
+    @PutMapping("/reject")
+    public List<InfosInt> rejectIntervention(@RequestBody Intervention intervention) throws Exception {
+        interventionService.rejectIntervention(CommonData.getEmail(), intervention.getEmailNounou());
+        return getAllInterventions();
+    }
+
+    @PutMapping("/confirm")
+    public List<InfosInt> acceptIntervention(@RequestBody Intervention intervention) throws Exception {
+        interventionService.acceptIntervention(CommonData.getEmail(), intervention.getEmailNounou());
+        return getAllInterventions();
+    }
+
     @GetMapping("/get-all-interventions")
     public List<InfosInt> getAllInterventions() {
         Map<String, List<Intervention>> listIntervention = interventionService.getAllInterventions();
@@ -98,8 +122,8 @@ public class InterventionResource {
         });
 
         InfosInt response = new InfosInt();
-        response.setNom(nounou.getNom().toUpperCase());
-        response.setPrenom(nounou.getPrenom());
+        response.setNom(nounou == null ? "" : nounou.getNom().toUpperCase());
+        response.setPrenom(nounou == null ? "" : nounou.getPrenom());
         response.setEmailNounou(e.get(0).getEmailNounou());
         response.setPeriode(e.get(0).getDebutIntervention().toString().substring(0,10) + " au " + e.get(0).getFinIntervention().toString().substring(0,10));
         response.setEtat(e.get(0).getEtat());

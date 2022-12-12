@@ -44,6 +44,22 @@ public class InterventionService {
         kafkaTemplate.send(env.getProperty("producer.kafka.topic-name-intervention"), intervention);
     }
 
+    public void cancelIntervention(String emailFamille, String emailNounou){
+        interventionRepository.cancelIntervention(emailFamille, emailNounou);
+    }
+
+    public void reviveIntervention(String emailFamille, String emailNounou){
+        interventionRepository.reviveIntervention(emailFamille, emailNounou);
+    }
+
+    public void rejectIntervention(String emailFamille, String emailNounou){
+        interventionRepository.rejectIntervention(emailFamille, emailNounou);
+    }
+
+    public void acceptIntervention(String emailFamille, String emailNounou){
+        interventionRepository.acceptIntervention(emailFamille, emailNounou);
+    }
+
     public Map<String, List<Intervention>> getAllInterventions() {
         return interventionRepository.findAll()
                 .parallelStream()
