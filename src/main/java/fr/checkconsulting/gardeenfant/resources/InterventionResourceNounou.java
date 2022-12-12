@@ -26,15 +26,15 @@ public class InterventionResourceNounou {
     }
 
     @PutMapping("/reject")
-    public List<InfosInt> rejectInterventionNounou(@RequestBody Intervention intervention) {
-        interventionService.rejectIntervention(intervention.getEmailFamille(), intervention.getEmailNounou());
-        return getInterventions(intervention.getEmailNounou());
+    public List<InfosInt> rejectInterventionNounou(@RequestParam("emailFamille") String emailFamille, @RequestParam("emailNounou") String emailNounou) {
+        interventionService.rejectIntervention(emailFamille, emailNounou);
+        return getInterventions(emailNounou);
     }
 
     @PutMapping("/confirm")
-    public List<InfosInt> acceptInterventionNounou(@RequestBody Intervention intervention) {
-        interventionService.acceptIntervention(intervention.getEmailFamille(), intervention.getEmailNounou());
-        return getInterventions(intervention.getEmailNounou());
+    public List<InfosInt> acceptInterventionNounou(@RequestParam("emailFamille") String emailFamille, @RequestParam("emailNounou") String emailNounou) {
+        interventionService.acceptIntervention(emailFamille, emailNounou);
+        return getInterventions(emailNounou);
     }
 
     @GetMapping("/get-all-interventions")
