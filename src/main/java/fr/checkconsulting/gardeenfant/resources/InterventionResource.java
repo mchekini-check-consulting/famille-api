@@ -80,21 +80,10 @@ public class InterventionResource {
         return getAllInterventions();
     }
 
-    @PutMapping("/reject")
-    public List<InfosInt> rejectIntervention(@RequestBody Intervention intervention) throws Exception {
-        interventionService.rejectIntervention(CommonData.getEmail(), intervention.getEmailNounou());
-        return getAllInterventions();
-    }
-
-    @PutMapping("/confirm")
-    public List<InfosInt> acceptIntervention(@RequestBody Intervention intervention) throws Exception {
-        interventionService.acceptIntervention(CommonData.getEmail(), intervention.getEmailNounou());
-        return getAllInterventions();
-    }
-
     @GetMapping("/get-all-interventions")
     public List<InfosInt> getAllInterventions() {
         Map<String, List<Intervention>> listIntervention = interventionService.getAllInterventions();
+
         List<NounouDto> listNounous = searchService.getNounouByCriteria("","","", -1, "", "");
 
         List list = new ArrayList(listIntervention.keySet());

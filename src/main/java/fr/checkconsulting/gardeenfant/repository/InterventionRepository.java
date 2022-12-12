@@ -14,6 +14,8 @@ import java.util.List;
 public interface InterventionRepository extends JpaRepository<Intervention, String> {
     List<Intervention> findAll();
 
+    List<Intervention> findAllByEmailNounou(String emailNounou);
+
     @Modifying
     @Query("update Intervention i set i.etat = 'Annulée' where (i.emailFamille = :emailFamille and i.emailNounou = :emailNounou)")
     @Transactional
