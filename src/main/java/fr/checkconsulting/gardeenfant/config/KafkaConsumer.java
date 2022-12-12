@@ -26,10 +26,11 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "chat-famille", groupId = "famille-group-id")
-    public void listenSenderMessage(Message data) {
+    public void listenSenderMessage(ConsumerRecord data) throws JsonProcessingException {
+        Message message = new ObjectMapper().readValue(data.value().toString(), Message.class);
         log.info("Message received by consumer {}", data);
         // Sauvegarder une copie sur la base de données famille
-        chatRepository.save(data);
+        chatRepository.save(message);
     }
 
     @KafkaListener(topics = "intervention-app", groupId = "intervention-group-id")
