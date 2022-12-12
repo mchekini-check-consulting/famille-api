@@ -9,3 +9,7 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
+
+nounou:
+  application:
+    url: "http://localhost:8083"

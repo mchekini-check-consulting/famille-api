@@ -71,7 +71,7 @@ public class InterventionResource {
     @GetMapping("/get-all-interventions")
     public List<InfosInt> getAllInterventions() {
         Map<String, List<Intervention>> listIntervention = interventionService.getAllInterventions();
-        List<NounouDto> listNounous = searchService.getNounouByCriteria("","","");
+        List<NounouDto> listNounous = searchService.getNounouByCriteria("","","", -1, "", "");
 
         List list = new ArrayList(listIntervention.keySet());
 

@@ -25,8 +25,13 @@ public class SearchResource {
 
 
     @GetMapping("nounou")
-    public List<NounouDto> getNounouByCriteria(@RequestParam("nom") String nom, @RequestParam("prenom") String prenom, @RequestParam("ville") String ville) {
-        return searchService.getNounouByCriteria(nom, prenom, ville);
+    public List<NounouDto> getNounouByCriteria(@RequestParam("nom") String nom,
+                                               @RequestParam("prenom") String prenom,
+                                               @RequestParam("ville") String ville,
+                                               @RequestParam("jour") int jour,
+                                               @RequestParam("heureDebut") String heureDebut,
+                                               @RequestParam("heureFin") String heureFin) {
+        return searchService.getNounouByCriteria(nom, prenom, ville, jour, heureDebut, heureFin);
     }
 
     @GetMapping("dispo-nounou")

@@ -34,11 +34,16 @@ public class SearchService {
         this.restTemplate = restTemplate;
     }
 
-    public List<NounouDto> getNounouByCriteria(String nom, String prenom, String ville) {
+    public List<NounouDto> getNounouByCriteria(String nom, String prenom, String ville, int jour, String heureDebut, String heureFin) {
 
-        String url = nounouUrl + "/api/v1/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville;
+        String url = nounouUrl + "/api/v1/search/nounou?nom=" + nom + "&prenom=" + prenom + "&ville=" + ville + "&jour=" + jour + "&heureDebut=" + heureDebut + "&heureFin=" + heureFin;
+
         ResponseEntity<NounouDto[]> nounouDtos = restTemplate.getForEntity(url, NounouDto[].class);
 
+        Arrays.stream(nounouDtos.getBody()).forEach(nounouDto -> {
+            nounouDto.setAdresse(String.join(" ", nounouDto.getRue(), nounouDto.getVille(), nounouDto.getCodePostal()));
+            nounouDto.setTelephone(nounouDto.getNumeroTelephone());
+        });
         return Arrays.stream(nounouDtos.getBody()).collect(Collectors.toList());
     }
 
