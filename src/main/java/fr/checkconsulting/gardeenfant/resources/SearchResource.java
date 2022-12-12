@@ -1,7 +1,7 @@
 package fr.checkconsulting.gardeenfant.resources;
 
 
-import fr.checkconsulting.gardeenfant.dto.DisponibilitesDTO;
+import fr.checkconsulting.gardeenfant.dto.DisponibiliteDTO;
 import fr.checkconsulting.gardeenfant.dto.FamilleDTO;
 import fr.checkconsulting.gardeenfant.dto.NounouDto;
 import fr.checkconsulting.gardeenfant.services.SearchService;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -35,7 +34,7 @@ public class SearchResource {
     }
 
     @GetMapping("dispo-nounou")
-    public List<DisponibilitesDTO> getDispoNounou(@RequestParam("email") String email) {
+    public List<DisponibiliteDTO> getDispoNounou(@RequestParam("email") String email) {
         return searchService.getDispoNounou(email);
     }
 

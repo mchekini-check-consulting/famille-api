@@ -1,6 +1,6 @@
 package fr.checkconsulting.gardeenfant.services;
 
-import fr.checkconsulting.gardeenfant.dto.DisponibilitesDTO;
+import fr.checkconsulting.gardeenfant.dto.DisponibiliteDTO;
 import fr.checkconsulting.gardeenfant.dto.FamilleDTO;
 import fr.checkconsulting.gardeenfant.dto.NounouDto;
 import fr.checkconsulting.gardeenfant.entity.Besoins;
@@ -46,10 +46,10 @@ public class SearchService {
         return Arrays.stream(nounouDtos.getBody()).collect(Collectors.toList());
     }
 
-    public List<DisponibilitesDTO> getDispoNounou(String email) {
+    public List<DisponibiliteDTO> getDispoNounou(String email) {
 
         String url = nounouUrl + "/api/v1/search/dispo-nounou/" + email;
-        ResponseEntity<DisponibilitesDTO[]> dispoNounous = restTemplate.getForEntity(url, DisponibilitesDTO[].class);
+        ResponseEntity<DisponibiliteDTO[]> dispoNounous = restTemplate.getForEntity(url, DisponibiliteDTO[].class);
 
         return Arrays.stream(dispoNounous.getBody()).collect(Collectors.toList());
     }
