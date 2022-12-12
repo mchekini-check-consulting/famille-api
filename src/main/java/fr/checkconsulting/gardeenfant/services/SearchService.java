@@ -1,7 +1,6 @@
 package fr.checkconsulting.gardeenfant.services;
 
 import fr.checkconsulting.gardeenfant.dto.DisponibilitesDTO;
-import com.google.common.collect.Iterables;
 import fr.checkconsulting.gardeenfant.dto.FamilleDTO;
 import fr.checkconsulting.gardeenfant.dto.NounouDto;
 import fr.checkconsulting.gardeenfant.entity.Besoins;
@@ -54,7 +53,7 @@ public class SearchService {
 
         return Arrays.stream(dispoNounous.getBody()).collect(Collectors.toList());
     }
-    
+
     public List<FamilleDTO> getFamilleByCriteria(String nom, String prenom, String ville, int jour, String heureDebut, String heureFin) {
 
         if ("".equals(nom)) nom = null;
@@ -65,17 +64,12 @@ public class SearchService {
 
         List<Famille> familles = familleRepository.getFamillesByCriteria(nom, prenom, ville);
         List<Besoins> besoins = besoinsRepository.findAllByJour(jour);
-        if (besoins.isEmpty()) {
-            Iterables.removeAll(familles, familles);
-        }
-        else {
-            Map<String, List<LocalTime>> mappedBesoins = mapBesoins(besoins);
-            if (heureDebut != null && heureFin != null) {
-                List<String> emails = filterBesoinsByTimeInterval(mappedBesoins, LocalTime.parse(heureDebut), LocalTime.parse(heureFin));
-                familles.removeIf(famille -> !emails.contains(famille.getEmail()));
-            } else {
-                familles.removeIf(famille -> besoins.stream().noneMatch(besoin -> besoin.getEmailFamille().equals(famille.getEmail())));
-            }
+
+
+        Map<String, List<LocalTime>> mappedBesoins = mapBesoins(besoins);
+        if (heureDebut != null && heureFin != null) {
+            List<String> emails = filterBesoinsByTimeInterval(mappedBesoins, LocalTime.parse(heureDebut), LocalTime.parse(heureFin));
+            familles.removeIf(famille -> !emails.contains(famille.getEmail()));
         }
 
         List<FamilleDTO> famillesDto = new ArrayList<>();
