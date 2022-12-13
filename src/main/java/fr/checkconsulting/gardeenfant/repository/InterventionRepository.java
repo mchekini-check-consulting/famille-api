@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface InterventionRepository extends JpaRepository<Intervention, String> {
-    List<Intervention> findAll();
+    List<Intervention> findAllByEmailFamille(String emailFamille);
 
     List<Intervention> findAllByEmailNounou(String emailNounou);
 

@@ -60,8 +60,8 @@ public class InterventionService {
         interventionRepository.acceptIntervention(emailFamille, emailNounou);
     }
 
-    public Map<String, List<Intervention>> getAllInterventions() {
-        return interventionRepository.findAll()
+    public Map<String, List<Intervention>> getAllInterventionsByFamille(String emailFamille) {
+        return interventionRepository.findAllByEmailFamille(emailFamille)
                 .parallelStream()
                 .map(record -> new Intervention(record.getTimeIntervention(), record.getDebutIntervention(), record.getFinIntervention(), record.getJour(), record.getMatin(), record.getMidi(), record.getSoir(), record.getEmailFamille(), record.getEmailNounou(), record.getEtat()))
                 .collect(groupingBy(Intervention::getEmailNounou));
