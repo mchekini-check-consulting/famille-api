@@ -25,13 +25,13 @@ public class InterventionResourceNounou {
         this.familleRepository = familleRepository;
     }
 
-    @PutMapping("/reject")
+    @GetMapping("/reject")
     public List<InfosInt> rejectInterventionNounou(@RequestParam("emailFamille") String emailFamille, @RequestParam("emailNounou") String emailNounou) {
         interventionService.rejectIntervention(emailFamille, emailNounou);
         return getInterventions(emailNounou);
     }
 
-    @PutMapping("/confirm")
+    @GetMapping("/confirm")
     public List<InfosInt> acceptInterventionNounou(@RequestParam("emailFamille") String emailFamille, @RequestParam("emailNounou") String emailNounou) {
         interventionService.acceptIntervention(emailFamille, emailNounou);
         return getInterventions(emailNounou);
