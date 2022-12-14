@@ -43,3 +43,9 @@ javamelody:
     authorized-users: admin:pwd
     storage-directory: /tmp/javamelody
     monitoring-path: /monitoring
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
