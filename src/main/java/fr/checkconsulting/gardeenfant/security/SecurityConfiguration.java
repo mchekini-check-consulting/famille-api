@@ -12,6 +12,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/api/v1/health/").permitAll()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/api/v1/search/**").permitAll()
                 .antMatchers("/api/v1/intervention/**").permitAll()
                 .antMatchers("/api/v1/famille/**").authenticated()
