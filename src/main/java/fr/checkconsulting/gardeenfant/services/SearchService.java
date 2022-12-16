@@ -65,9 +65,11 @@ public class SearchService {
         List<Famille> familles = familleRepository.getFamillesByCriteria(nom, prenom, ville);
         List<Besoins> besoins = besoinsRepository.findAllByJour(jour);
 
-
-        Map<String, List<LocalTime>> mappedBesoins = mapBesoins(besoins);
+        if (jour != -1) {
+            familles.removeIf(famille -> besoins.stream().noneMatch(besoin -> besoin.getEmailFamille().equals(famille.getEmail())));
+        }
         if (heureDebut != null && heureFin != null) {
+            Map<String, List<List<LocalTime>>> mappedBesoins = mapBesoins(besoins);
             List<String> emails = filterBesoinsByTimeInterval(mappedBesoins, LocalTime.parse(heureDebut), LocalTime.parse(heureFin));
             familles.removeIf(famille -> !emails.contains(famille.getEmail()));
         }
@@ -90,14 +92,18 @@ public class SearchService {
         return famillesDto;
     }
 
-    private List<String> filterBesoinsByTimeInterval(Map<String, List<LocalTime>> besoins, LocalTime heureDebut, LocalTime heureFin) {
+    private List<String> filterBesoinsByTimeInterval(Map<String, List<List<LocalTime>>> besoins, LocalTime heureDebut, LocalTime heureFin) {
         List<String> emails = new ArrayList<>();
-        for (Map.Entry<String, List<LocalTime>> besoin : besoins.entrySet()) {
+        for (Map.Entry<String, List<List<LocalTime>>> besoin : besoins.entrySet()) {
             boolean validTimeInterval = false;
-            List<LocalTime> intervals = besoin.getValue();
-            for (int i = 0; i < intervals.size(); i += 2) {
-                if (!intervals.get(i).isAfter(heureDebut) && !heureFin.isAfter(intervals.get(i + 1))) {
-                    validTimeInterval = true;
+            for (List<LocalTime> intervals : besoin.getValue()) {
+                for (int i = 0; i < intervals.size(); i += 2) {
+                    if (!intervals.get(i).isAfter(heureDebut) && !heureFin.isAfter(intervals.get(i + 1))) {
+                        validTimeInterval = true;
+                        break;
+                    }
+                }
+                if (validTimeInterval) {
                     break;
                 }
             }
@@ -108,99 +114,31 @@ public class SearchService {
         return emails;
     }
 
-    private HashMap<String, List<LocalTime>> mapBesoins(List<Besoins> besoins) {
-        HashMap<String, List<LocalTime>> transformedBesoins = new HashMap<>();
+    private Map<String, List<List<LocalTime>>> mapBesoins(List<Besoins> besoins) {
+        Map<String, List<List<LocalTime>>> mappingBesoins = new HashMap<>();
         for (Besoins besoin : besoins) {
-            List<LocalTime> timeList = new ArrayList<>();
-            if (besoin.getBesoin_matin_debut() != null) timeList.add(besoin.getBesoin_matin_debut());
-            if (besoin.getBesoin_matin_fin() != null) timeList.add(besoin.getBesoin_matin_fin());
-            if (besoin.getBesoin_midi_debut() != null) timeList.add(besoin.getBesoin_midi_debut());
-            if (besoin.getBesoin_midi_fin() != null) timeList.add(besoin.getBesoin_midi_fin());
-            if (besoin.getBesoin_soir_debut() != null) timeList.add(besoin.getBesoin_soir_debut());
-            if (besoin.getBesoin_soir_fin() != null) timeList.add(besoin.getBesoin_soir_fin());
-            if (timeList.size() == 6 && timeList.get(1).equals(timeList.get(2))) {
-                timeList.remove(1);
-                timeList.remove(1);
+            List<LocalTime> intervals = new ArrayList<>();
+            if (besoin.getBesoin_matin_debut() != null) intervals.add(besoin.getBesoin_matin_debut());
+            if (besoin.getBesoin_matin_fin() != null) intervals.add(besoin.getBesoin_matin_fin());
+            if (besoin.getBesoin_midi_debut() != null) intervals.add(besoin.getBesoin_midi_debut());
+            if (besoin.getBesoin_midi_fin() != null) intervals.add(besoin.getBesoin_midi_fin());
+            if (besoin.getBesoin_soir_debut() != null) intervals.add(besoin.getBesoin_soir_debut());
+            if (besoin.getBesoin_soir_fin() != null) intervals.add(besoin.getBesoin_soir_fin());
+            if (intervals.size() == 6 && intervals.get(1).equals(intervals.get(2))) {
+                intervals.remove(1);
+                intervals.remove(1);
             }
-            if (timeList.size() == 4 && timeList.get(1).equals(timeList.get(2))) {
-                timeList.remove(1);
-                timeList.remove(1);
+            if (intervals.size() == 4 && intervals.get(1).equals(intervals.get(2))) {
+                intervals.remove(1);
+                intervals.remove(1);
             }
-            transformedBesoins.put(besoin.getEmailFamille(), timeList);
+            List<List<LocalTime>> intervalsList = new ArrayList<>();
+            if (mappingBesoins.containsKey(besoin.getEmailFamille())) {
+                intervalsList = mappingBesoins.get(besoin.getEmailFamille());
+            }
+            intervalsList.add(intervals);
+            mappingBesoins.put(besoin.getEmailFamille(), intervalsList);
         }
-        return transformedBesoins;
-    }
-
-    private Besoins buildDisponibiliteCriteria(String jour, String heureDebut, String heureFin) {
-        Besoins besoins = new Besoins();
-        if ("".equals(jour)) {
-            besoins.setJour(-1);
-        } else {
-            try {
-                besoins.setJour(Integer.parseInt(jour));
-            } catch (NumberFormatException e) {
-                besoins.setJour(-1);
-            }
-        }
-
-        if (!"".equals(heureDebut) && !"".equals(heureFin)) {
-            LocalTime parsedHeureDebut = LocalTime.parse(heureDebut);
-            LocalTime parsedHeureFin = LocalTime.parse(heureFin);
-            LocalTime matin = LocalTime.parse("07:00:00");
-            LocalTime midi = LocalTime.parse("12:00:00");
-            LocalTime aprem = LocalTime.parse("16:00:00");
-            LocalTime soir = LocalTime.parse("21:00:00");
-            LocalTime minuit = LocalTime.parse("00:00:00");
-
-            if (parsedHeureDebut.isBefore(matin)
-                    || parsedHeureDebut.isAfter(soir)
-                    || parsedHeureFin.isBefore(matin)
-                    || parsedHeureFin.isAfter(soir)
-            ) {
-                besoins.setBesoin_matin_debut(minuit);
-                besoins.setBesoin_matin_fin(minuit);
-                besoins.setBesoin_midi_debut(minuit);
-                besoins.setBesoin_midi_fin(minuit);
-                besoins.setBesoin_soir_debut(minuit);
-                besoins.setBesoin_soir_fin(minuit);
-            }
-            if (!matin.isAfter(parsedHeureDebut) && parsedHeureDebut.isBefore(midi)) {
-                besoins.setBesoin_matin_debut(parsedHeureDebut);
-                if (!parsedHeureFin.isAfter(midi)) {
-                    besoins.setBesoin_matin_fin(parsedHeureFin);
-                }
-                if (midi.isBefore(parsedHeureFin) && !parsedHeureFin.isAfter(aprem)) {
-                    besoins.setBesoin_matin_fin(midi);
-                    besoins.setBesoin_midi_debut(midi);
-                    besoins.setBesoin_midi_fin(parsedHeureFin);
-                }
-                if (aprem.isBefore(parsedHeureFin) && !parsedHeureFin.isAfter(soir)) {
-                    besoins.setBesoin_matin_fin(midi);
-                    besoins.setBesoin_midi_debut(midi);
-                    besoins.setBesoin_midi_fin(aprem);
-                    besoins.setBesoin_soir_debut(aprem);
-                    besoins.setBesoin_soir_fin(parsedHeureFin);
-                }
-            }
-            if (!midi.isAfter(parsedHeureDebut) && parsedHeureDebut.isBefore(aprem)) {
-                besoins.setBesoin_midi_debut(parsedHeureDebut);
-                if (!parsedHeureFin.isAfter(aprem)) {
-                    besoins.setBesoin_midi_fin(parsedHeureFin);
-                }
-                if (aprem.isBefore(parsedHeureFin) && !parsedHeureFin.isAfter(soir)) {
-                    besoins.setBesoin_midi_fin(aprem);
-                    besoins.setBesoin_soir_debut(aprem);
-                    besoins.setBesoin_soir_fin(parsedHeureFin);
-                }
-            }
-            if (!aprem.isAfter(parsedHeureDebut) && parsedHeureDebut.isBefore(soir)) {
-                besoins.setBesoin_soir_debut(parsedHeureDebut);
-                if (!parsedHeureFin.isAfter(soir)) {
-                    besoins.setBesoin_soir_fin(parsedHeureFin);
-                }
-            }
-        }
-
-        return besoins;
+        return mappingBesoins;
     }
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface FamilleRepository extends JpaRepository<Famille, String> {
    List<Famille> findAll();
-    @Query("select distinct f " +
+
+   @Query("select f " +
             "from Famille f " +
-            "inner join Besoins b on f.email = b.emailFamille " +
             "where (:nom is null or lower(f.nom) = lower(:nom)) " +
             "and (:prenom is null or lower(f.prenomRepresentant) = lower(:prenom)) " +
             "and (:ville is null or lower(f.ville) = lower(:ville))")
