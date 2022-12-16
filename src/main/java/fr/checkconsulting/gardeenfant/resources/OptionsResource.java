@@ -1,7 +1,7 @@
 package fr.checkconsulting.gardeenfant.resources;
 
 import fr.checkconsulting.gardeenfant.entity.Options;
-import fr.checkconsulting.gardeenfant.entity.OptionsDTO;
+import fr.checkconsulting.gardeenfant.dto.OptionsDTO;
 import fr.checkconsulting.gardeenfant.services.OptionsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +15,16 @@ public class OptionsResource {
 
     @Autowired
     private ModelMapper modelMapper;
+
     public OptionsResource(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
-
 
     @GetMapping("/get")
     public ResponseEntity<OptionsDTO> getOptionsFamilleById() throws Exception {
         Options options = optionsService.getOptionsFamilleById();
 
-        //Convertir l'entité en DTO
+        // Convertir l'entité en DTO
         OptionsDTO optionsResponse = modelMapper.map(options, OptionsDTO.class);
 
         return ResponseEntity.ok().body(optionsResponse);

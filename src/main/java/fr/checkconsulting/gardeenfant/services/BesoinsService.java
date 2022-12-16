@@ -56,23 +56,23 @@ public class BesoinsService {
     public void creerNouveauBesoin(BesoinsDTO besoin) throws Exception {
         // Convertir les champs de type number to localTime
 
-        LocalTime matin_debut = besoin.getBesoin_matin_debut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_matin_debut(), 0,0)));
-        LocalTime matin_fin = besoin.getBesoin_matin_debut() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_matin_fin(), 0,0)));
-        LocalTime midi_debut = besoin.getBesoin_midi_debut() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_midi_debut(), 0,0)));
-        LocalTime midi_fin = besoin.getBesoin_midi_fin() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_midi_fin(), 0,0)));
-        LocalTime soir_debut = besoin.getBesoin_soir_debut() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_soir_debut(), 0,0)));
-        LocalTime soir_fin = besoin.getBesoin_soir_fin() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_soir_fin(), 0,0)));
+        LocalTime matin_debut = besoin.getBesoinMatinDebut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMatinDebut(), 0,0)));
+        LocalTime matin_fin = besoin.getBesoinMatinFin() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMatinFin(), 0,0)));
+        LocalTime midi_debut = besoin.getBesoinMidiDebut() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMidiDebut(), 0,0)));
+        LocalTime midi_fin = besoin.getBesoinMidiFin() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMidiFin(), 0,0)));
+        LocalTime soir_debut = besoin.getBesoinSoirDebut() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinSoirDebut(), 0,0)));
+        LocalTime soir_fin = besoin.getBesoinSoirFin() == null ? null :LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinSoirFin(), 0,0)));
 
         Besoins besoinData = new Besoins();
 
-        besoinData.setId_besoin(besoin.getId_besoin());
+        besoinData.setIdBesoin(besoin.getIdBesoin());
         besoinData.setJour(besoin.getJour());
-        besoinData.setBesoin_matin_debut(matin_debut);
-        besoinData.setBesoin_matin_fin(matin_fin);
-        besoinData.setBesoin_midi_debut(midi_debut);
-        besoinData.setBesoin_midi_fin(midi_fin);
-        besoinData.setBesoin_soir_debut(soir_debut);
-        besoinData.setBesoin_soir_fin(soir_fin);
+        besoinData.setBesoinMatinDebut(matin_debut);
+        besoinData.setBesoinMatinFin(matin_fin);
+        besoinData.setBesoinMidiDebut(midi_debut);
+        besoinData.setBesoinMidiFin(midi_fin);
+        besoinData.setBesoinSoirDebut(soir_debut);
+        besoinData.setBesoinSoirFin(soir_fin);
         besoinData.setEmailFamille(CommonData.getEmail());
         try{
             besoinsRepository.save(besoinData);
@@ -85,50 +85,50 @@ public class BesoinsService {
     public void modifierBesoin(BesoinsDTO besoin) throws Exception {
         // Convertir les champs de type number to localTime
         Besoins besoinData = new Besoins();
-        besoinData.setId_besoin(besoin.getId_besoin());
+        besoinData.setIdBesoin(besoin.getIdBesoin());
         besoinData.setJour(besoin.getJour());
         // Récupèrer le contenu persisté dans la BDD
         Besoins data = getAllBesoinsByEmailAndJour(besoin.getJour());
 
         besoinData.setEmailFamille(CommonData.getEmail());
 
-        LocalTime matin_debut = data == null ? null : data.getBesoin_matin_debut();
-        LocalTime matin_fin = data == null ? null : data.getBesoin_matin_fin();
-        LocalTime midi_debut = data == null ? null : data.getBesoin_midi_debut();
-        LocalTime midi_fin = data == null ? null : data.getBesoin_midi_fin();
-        LocalTime soir_debut = data == null ? null : data.getBesoin_soir_debut();
-        LocalTime soir_fin = data == null ? null : data.getBesoin_soir_fin();
+        LocalTime matin_debut = data == null ? null : data.getBesoinMatinDebut();
+        LocalTime matin_fin = data == null ? null : data.getBesoinMatinFin();
+        LocalTime midi_debut = data == null ? null : data.getBesoinMidiDebut();
+        LocalTime midi_fin = data == null ? null : data.getBesoinMidiFin();
+        LocalTime soir_debut = data == null ? null : data.getBesoinSoirDebut();
+        LocalTime soir_fin = data == null ? null : data.getBesoinSoirFin();
 
         switch (besoin.getType()){
             case "mat":
-                matin_debut = besoin.getBesoin_matin_debut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_matin_debut(), 0,0)));
-                matin_fin = besoin.getBesoin_matin_fin() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_matin_fin(), 0,0)));
-                besoinData.setBesoin_matin_debut(matin_debut);
-                besoinData.setBesoin_matin_fin(matin_fin);
-                besoinData.setBesoin_midi_debut(midi_debut);
-                besoinData.setBesoin_midi_fin(midi_fin);
-                besoinData.setBesoin_soir_debut(soir_debut);
-                besoinData.setBesoin_soir_fin(soir_fin);
+                matin_debut = besoin.getBesoinMatinDebut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMatinDebut(), 0,0)));
+                matin_fin = besoin.getBesoinMatinFin() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMatinFin(), 0,0)));
+                besoinData.setBesoinMatinDebut(matin_debut);
+                besoinData.setBesoinMatinFin(matin_fin);
+                besoinData.setBesoinMidiDebut(midi_debut);
+                besoinData.setBesoinMidiFin(midi_fin);
+                besoinData.setBesoinSoirDebut(soir_debut);
+                besoinData.setBesoinSoirFin(soir_fin);
                 break;
             case "mid":
-                midi_debut = besoin.getBesoin_midi_debut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_midi_debut(), 0,0)));
-                midi_fin = besoin.getBesoin_midi_fin() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_midi_fin(), 0,0)));
-                besoinData.setBesoin_midi_debut(midi_debut);
-                besoinData.setBesoin_midi_fin(midi_fin);
-                besoinData.setBesoin_matin_debut(matin_debut);
-                besoinData.setBesoin_matin_fin(matin_fin);
-                besoinData.setBesoin_soir_debut(soir_debut);
-                besoinData.setBesoin_soir_fin(soir_fin);
+                midi_debut = besoin.getBesoinMidiDebut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMidiDebut(), 0,0)));
+                midi_fin = besoin.getBesoinMidiFin() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinMidiFin(), 0,0)));
+                besoinData.setBesoinMidiDebut(midi_debut);
+                besoinData.setBesoinMidiFin(midi_fin);
+                besoinData.setBesoinMatinDebut(matin_debut);
+                besoinData.setBesoinMatinFin(matin_fin);
+                besoinData.setBesoinSoirDebut(soir_debut);
+                besoinData.setBesoinSoirFin(soir_fin);
                 break;
             case "soi":
-                soir_debut = besoin.getBesoin_soir_debut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_soir_debut(), 0,0)));
-                soir_fin = besoin.getBesoin_soir_fin() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoin_soir_fin(), 0,0)));
-                besoinData.setBesoin_soir_debut(soir_debut);
-                besoinData.setBesoin_soir_fin(soir_fin);
-                besoinData.setBesoin_matin_debut(matin_debut);
-                besoinData.setBesoin_matin_fin(matin_fin);
-                besoinData.setBesoin_midi_debut(midi_debut);
-                besoinData.setBesoin_midi_fin(midi_fin);
+                soir_debut = besoin.getBesoinSoirDebut() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinSoirDebut(), 0,0)));
+                soir_fin = besoin.getBesoinSoirFin() == null ? null : LocalTime.parse(timeColonFormatter.format(LocalTime.of(besoin.getBesoinSoirFin(), 0,0)));
+                besoinData.setBesoinSoirDebut(soir_debut);
+                besoinData.setBesoinSoirFin(soir_fin);
+                besoinData.setBesoinMatinDebut(matin_debut);
+                besoinData.setBesoinMatinFin(matin_fin);
+                besoinData.setBesoinMidiDebut(midi_debut);
+                besoinData.setBesoinMidiFin(midi_fin);
                 break;
             default:
                 log.info("Erreur inattendue !");
@@ -138,7 +138,7 @@ public class BesoinsService {
 
             // Vérifier si tous le besoins de la journée sont annulés (mis à null)
             if(data != null && matin_debut == null && matin_fin == null && midi_debut == null && midi_fin == null && soir_debut == null && soir_fin == null) {
-                supprimerBesoin(besoin.getId_besoin());
+                supprimerBesoin(besoin.getIdBesoin());
             }
         } catch (DataAccessException e) {
             throw new Exception("La modification a échouée");

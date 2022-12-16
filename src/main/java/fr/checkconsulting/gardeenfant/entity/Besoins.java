@@ -15,14 +15,14 @@ import java.time.LocalTime;
 @Entity
 public class Besoins {
     @Id
-    private String id_besoin;
+    private String idBesoin;
     @NotEmpty(message = "Le champ Jour est obligatoire")
     private Integer jour;
-    private LocalTime besoin_matin_debut;
-    private LocalTime besoin_matin_fin;
-    private LocalTime besoin_midi_debut;
-    private LocalTime besoin_midi_fin;
-    private LocalTime besoin_soir_debut;
-    private LocalTime besoin_soir_fin;
+    private LocalTime besoinMatinDebut;
+    private LocalTime besoinMatinFin;
+    private LocalTime besoinMidiDebut;
+    private LocalTime besoinMidiFin;
+    private LocalTime besoinSoirDebut;
+    private LocalTime besoinSoirFin;
     private String emailFamille;
 }
