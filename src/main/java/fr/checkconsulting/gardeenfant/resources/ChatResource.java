@@ -7,7 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Slf4j
@@ -37,7 +38,10 @@ public class ChatResource {
 
     @PostMapping("/send")
     public void sendMessage(@RequestBody Message message) throws Exception {
-        message.setTimeMessage(LocalDateTime.now());
+        ZoneId z = ZoneId.of("Europe/Paris");
+        ZonedDateTime timeUTCParis = ZonedDateTime.now(z);
+        log.info("Time : {}", timeUTCParis.toLocalDateTime());
+        message.setTimeMessage(timeUTCParis.toLocalDateTime());
         chatService.sendMessage(message);
     }
 
