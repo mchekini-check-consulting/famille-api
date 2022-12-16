@@ -35,13 +35,19 @@ public class FamilleResource {
 
         //Convertir l'entité en DTO
         FamilleDTO familleResponse = modelMapper.map(famille, FamilleDTO.class);
-        familleResponse.setAdresse(String.join(" ", famille.getRue(), famille.getCodePostal(), famille.getVille()));
+        familleResponse.setMail(famille.getEmail());
+        familleResponse.setPseudo(famille.getPseudo());
 
         return ResponseEntity.ok().body(familleResponse);
     }
 
     @PutMapping("/update")
-    public void updateFamille(@RequestBody Famille famille) throws Exception {
-        familleService.updateFamille(famille);
+    public void updateFamille(@RequestBody FamilleDTO famille) throws Exception {
+        Famille familleEntity = modelMapper.map(famille, Famille.class);
+        familleEntity.setPrenomRepresentant(famille.getPrenom());
+        familleEntity.setEmail(famille.getMail());
+        familleEntity.setNumeroTelephone(famille.getTelephone());
+
+        familleService.updateFamille(familleEntity);
     }
 }
