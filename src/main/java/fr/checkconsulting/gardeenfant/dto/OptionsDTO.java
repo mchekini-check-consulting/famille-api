@@ -1,4 +1,4 @@
-package fr.checkconsulting.gardeenfant.entity;
+package fr.checkconsulting.gardeenfant.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

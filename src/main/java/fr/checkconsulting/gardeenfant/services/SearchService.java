@@ -118,12 +118,12 @@ public class SearchService {
         Map<String, List<List<LocalTime>>> mappingBesoins = new HashMap<>();
         for (Besoins besoin : besoins) {
             List<LocalTime> intervals = new ArrayList<>();
-            if (besoin.getBesoin_matin_debut() != null) intervals.add(besoin.getBesoin_matin_debut());
-            if (besoin.getBesoin_matin_fin() != null) intervals.add(besoin.getBesoin_matin_fin());
-            if (besoin.getBesoin_midi_debut() != null) intervals.add(besoin.getBesoin_midi_debut());
-            if (besoin.getBesoin_midi_fin() != null) intervals.add(besoin.getBesoin_midi_fin());
-            if (besoin.getBesoin_soir_debut() != null) intervals.add(besoin.getBesoin_soir_debut());
-            if (besoin.getBesoin_soir_fin() != null) intervals.add(besoin.getBesoin_soir_fin());
+            if (besoin.getBesoinMatinDebut() != null) intervals.add(besoin.getBesoinMatinDebut());
+            if (besoin.getBesoinMatinFin() != null) intervals.add(besoin.getBesoinMatinFin());
+            if (besoin.getBesoinMidiDebut() != null) intervals.add(besoin.getBesoinMidiDebut());
+            if (besoin.getBesoinMidiFin() != null) intervals.add(besoin.getBesoinMidiFin());
+            if (besoin.getBesoinSoirDebut() != null) intervals.add(besoin.getBesoinSoirDebut());
+            if (besoin.getBesoinSoirFin() != null) intervals.add(besoin.getBesoinSoirFin());
             if (intervals.size() == 6 && intervals.get(1).equals(intervals.get(2))) {
                 intervals.remove(1);
                 intervals.remove(1);

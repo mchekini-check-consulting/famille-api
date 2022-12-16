@@ -1,7 +1,7 @@
 package fr.checkconsulting.gardeenfant.services;
 
 import fr.checkconsulting.gardeenfant.entity.Options;
-import fr.checkconsulting.gardeenfant.entity.OptionsDTO;
+import fr.checkconsulting.gardeenfant.dto.OptionsDTO;
 import fr.checkconsulting.gardeenfant.repository.OptionsRepository;
 import fr.checkconsulting.gardeenfant.security.CommonData;
 import lombok.SneakyThrows;
@@ -26,9 +26,9 @@ public class OptionsService {
     public Options getOptionsFamilleById() throws Exception {
         String email = CommonData.getEmail();
         Optional<Options> result = optionsRepository.findById(email);
-        if(result.isPresent()) {
+        if (result.isPresent()) {
             return result.get();
-        }else {
+        } else {
             throw new Exception("La requête a échouée");
         }
     }
@@ -38,7 +38,7 @@ public class OptionsService {
         Options data = new Options();
         data.setEmailFamille(email);
         data.setAutosave(options.autosave ? 1 : 0);
-        try{
+        try {
             optionsRepository.save(data);
         } catch (DataAccessException e) {
             throw new Exception("La modification de données a échouée: \n" + e);

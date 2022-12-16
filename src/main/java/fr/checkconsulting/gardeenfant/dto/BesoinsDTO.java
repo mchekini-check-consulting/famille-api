@@ -4,13 +4,13 @@ import lombok.Data;
 
 @Data
 public class BesoinsDTO {
-    private String id_besoin;
+    private String idBesoin;
     private Integer jour;
-    private Integer besoin_matin_debut;
-    private Integer besoin_matin_fin;
-    private Integer besoin_midi_debut;
-    private Integer besoin_midi_fin;
-    private Integer besoin_soir_debut;
-    private Integer besoin_soir_fin;
+    private Integer besoinMatinDebut;
+    private Integer besoinMatinFin;
+    private Integer besoinMidiDebut;
+    private Integer besoinMidiFin;
+    private Integer besoinSoirDebut;
+    private Integer besoinSoirFin;
     private String type;
 }
