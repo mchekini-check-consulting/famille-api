@@ -39,8 +39,6 @@ public class ChatService {
                 .stream()
                 .map(message -> modelMapper.map(message, Message.class))
                 .collect(Collectors.toList());
-
-        LOG.info("Result : {}", result);
         return result;
     }
 
