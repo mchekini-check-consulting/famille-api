@@ -17,4 +17,5 @@ public interface BesoinsRepository extends JpaRepository<Besoins, String> {
     @Query("select b from Besoins b where (:jour = -1 or b.jour = :jour)")
     List<Besoins> findAllByJour(@Param("jour") int jour);
 
+
 }

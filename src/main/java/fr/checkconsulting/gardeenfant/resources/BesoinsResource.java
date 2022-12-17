@@ -52,7 +52,7 @@ public class BesoinsResource {
     }
 
     // Supprimer tous les besoins d'une famille
-    @DeleteMapping("/delete-all")
+    @DeleteMapping("/delete-all/{id}")
     public void deleteAllBesoins() throws Exception {
         besoinsService.supprimerTousBesoins();
     }
