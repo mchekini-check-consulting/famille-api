@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 public class FamilleDTO {
     private String nom;
     private String prenom;
-    private String adresse;
+    private String rue;
+    private String codePostal;
+    private String ville;
     private String telephone;
     private String mail;
+    private String pseudo;
 }

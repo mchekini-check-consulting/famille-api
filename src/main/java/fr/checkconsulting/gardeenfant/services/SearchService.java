@@ -79,13 +79,17 @@ public class SearchService {
 
             FamilleDTO familleDTO = FamilleDTO.builder()
                     .nom(famille.getNom())
-                    .prenom(famille.getPrenomRepresentant())
-                    .adresse(String.join(" ", famille.getRue(), famille.getCodePostal(), famille.getVille()))
-                    .mail(famille.getEmail())
+                    .prenom(famille.getPrenomRepresentant()).mail(famille.getEmail())
                     .telephone(famille.getNumeroTelephone())
-                    .build();
+                    .codePostal(famille.getCodePostal())
+                    .ville(famille.getVille())
+                    .rue(famille.getRue()).build();
+
+
+
 
             famillesDto.add(familleDTO);
+
         });
 
 
